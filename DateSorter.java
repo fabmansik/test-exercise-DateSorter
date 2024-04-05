@@ -1,6 +1,7 @@
 package sample;
 
 import java.time.LocalDate;
+import java.time.format.TextStyle;
 import java.util.*;
 
 /**
@@ -41,12 +42,6 @@ public class DateSorter {
      * @param unsortedDates - an unsorted list of dates
      * @return the collection of dates now sorted as per the spec
      */
-    private final List<Integer> datesWithoutR = new ArrayList() {{
-        add(5);
-        add(6);
-        add(7);
-        add(8);
-    }};
 
     //first implementation
     //all dates are sorted in this order: dates with "r" first going and sorted ascending and then dates without "r" sorted descending
@@ -55,11 +50,11 @@ public class DateSorter {
         List<LocalDate> sortedDates = new ArrayList<>();
         List<LocalDate> rList = new ArrayList<>();
         List<LocalDate> noRList = new ArrayList<>();
-        for (int i = 0; i < unsortedDates.size(); i++) {
-            if (datesWithoutR.contains(unsortedDates.get(i).getMonth().getValue())) {
-                noRList.add(unsortedDates.get(i));
+        for (LocalDate unsortedDate : unsortedDates) {
+            if (!(unsortedDate.getMonth().getDisplayName(TextStyle.FULL, Locale.ENGLISH).contains("r"))) {
+                noRList.add(unsortedDate);
             } else {
-                rList.add(unsortedDates.get(i));
+                rList.add(unsortedDate);
             }
         }
         noRList.sort(Collections.reverseOrder());
@@ -76,7 +71,7 @@ public class DateSorter {
         List<LocalDate> rList = new ArrayList<>();
         List<LocalDate> noRList = new ArrayList<>();
         for (LocalDate unsortedDate : unsortedDates) {
-            if (datesWithoutR.contains(unsortedDate.getMonth().getValue())) {
+            if (!unsortedDate.getMonth().getDisplayName(TextStyle.FULL,Locale.ENGLISH).contains("r")) {
                 if (!rList.isEmpty()) {
                     Collections.sort(rList);
                     sortedDates.addAll(rList);
