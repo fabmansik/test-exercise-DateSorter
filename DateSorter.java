@@ -1,6 +1,7 @@
 package sample;
 
 import java.time.LocalDate;
+import java.time.Month;
 import java.time.format.TextStyle;
 import java.util.*;
 
@@ -45,51 +46,37 @@ public class DateSorter {
 
     //first implementation
     //all dates are sorted in this order: dates with "r" first going and sorted ascending and then dates without "r" sorted descending
-
     public Collection<LocalDate> sortDates(List<LocalDate> unsortedDates) {
         List<LocalDate> sortedDates = new ArrayList<>();
-        List<LocalDate> rList = new ArrayList<>();
-        List<LocalDate> noRList = new ArrayList<>();
+        List<LocalDate> rDatesList = new ArrayList<>();
+        List<LocalDate> noRDatesList = new ArrayList<>();
+        List<Month> rMonths = new ArrayList<>();
+        for (int i = 1; i <= 12; i++) {
+            Month month = Month.of(i);
+            //if you are looking only for english states, use this
+            if(month.getDisplayName(TextStyle.FULL,Locale.ENGLISH).contains("r")){
+                rMonths.add(month);
+            }
+            //if you are looking for different languages states, use this then
+//            if(month.getDisplayName(TextStyle.FULL,Locale.getDefault()).contains("r")){
+//                rMonths.add(month);
+//            }
+
+        }
         for (LocalDate unsortedDate : unsortedDates) {
-            if (!(unsortedDate.getMonth().getDisplayName(TextStyle.FULL, Locale.ENGLISH).contains("r"))) {
-                noRList.add(unsortedDate);
+            if (!(rMonths.contains(unsortedDate.getMonth()))) {
+                noRDatesList.add(unsortedDate);
             } else {
-                rList.add(unsortedDate);
+                rDatesList.add(unsortedDate);
             }
         }
-        noRList.sort(Collections.reverseOrder());
-        Collections.sort(rList);
-        sortedDates.addAll(rList);
-        sortedDates.addAll(noRList);
+        noRDatesList.sort(Collections.reverseOrder());
+        Collections.sort(rDatesList);
+        sortedDates.addAll(rDatesList);
+        sortedDates.addAll(noRDatesList);
         return sortedDates;
     }
 
-    //second implementation in case if I didn't understand task at first
-    //dates are sorted in order they are going, but if dates have "r" - they are sorted ascending but if they don`t have "r" - they are sorted descending
-    public Collection<LocalDate> sortDatesSecondWay(List<LocalDate> unsortedDates) {
-        List<LocalDate> sortedDates = new ArrayList<>();
-        List<LocalDate> rList = new ArrayList<>();
-        List<LocalDate> noRList = new ArrayList<>();
-        for (LocalDate unsortedDate : unsortedDates) {
-            if (!unsortedDate.getMonth().getDisplayName(TextStyle.FULL,Locale.ENGLISH).contains("r")) {
-                if (!rList.isEmpty()) {
-                    Collections.sort(rList);
-                    sortedDates.addAll(rList);
-                    rList.clear();
-                }
-                noRList.add(unsortedDate);
-            } else {
-                if (!noRList.isEmpty()) {
-                    noRList.sort(Collections.reverseOrder());
-                    sortedDates.addAll(noRList);
-                    noRList.clear();
-                }
-                rList.add(unsortedDate);
-            }
-        }
-        sortedDates.addAll(noRList);
-        sortedDates.addAll(rList);
-        return sortedDates;
-    }
+
 
 }

@@ -10,7 +10,7 @@ public class Program {
         DateSorter dateSorter = new DateSorter();
 //      random dates to check the work of program
         List<LocalDate> dateList = new ArrayList<>();
-        for(int i=0; i<20;i++){
+        for(int i=0; i<10000;i++){
             LocalDate now = LocalDate.now();
             dateList.add(now.plusMonths(now.getMonth().getValue()+i).plusDays(now.getDayOfMonth()+i).minusYears(i));
         }
@@ -22,7 +22,7 @@ public class Program {
             add( LocalDate.of(2032, 5,03));
 
         }};
-        Collection<LocalDate> localDates = dateSorter.sortDates(localDatesTestInfo);
+        Collection<LocalDate> localDates = dateSorter.sortDates(dateList);
         System.out.println(localDates);
     }
 }
