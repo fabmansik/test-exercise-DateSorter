@@ -63,15 +63,9 @@ public class DateSorter {
         List<Integer> rMonths = new ArrayList<>();
 
         for (int i = 1; i < months.length; i++) {
-//            if you are looking only for english states, use this
             if (months[i].contains("r")) {
                 rMonths.add(i);
             }
-//            if you are looking for different languages states, use this then
-//            if (months[i].contains("r")) {
-//                rMonths.add(i);
-//            }
-
         }
         for (LocalDate unsortedDate : unsortedDates) {
             boolean contains = !rMonths.contains(unsortedDate.getMonth().getValue()) ? datesMap.get("noRDates").add(unsortedDate) : datesMap.get("rDates").add(unsortedDate);
