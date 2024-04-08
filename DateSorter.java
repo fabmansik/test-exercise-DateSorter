@@ -47,7 +47,6 @@ public class DateSorter {
     //first implementation
     //all dates are sorted in this order: dates with "r" first going and sorted ascending and then dates without "r" sorted descending
     public Collection<LocalDate> sortDates(List<LocalDate> unsortedDates) {
-        long start = System.currentTimeMillis();
         HashMap<String,List<LocalDate>> datesMap = new HashMap<>();
         datesMap.put("sorted",new ArrayList<>());
         datesMap.put("rDates",new ArrayList<>());
@@ -76,11 +75,6 @@ public class DateSorter {
         Collections.sort(datesMap.get("rDates"));
         datesMap.get("sorted").addAll(datesMap.get("rDates"));
         datesMap.get("sorted").addAll(datesMap.get("noRDates"));
-        long end = System.currentTimeMillis();
-        System.out.println("Time: "+(end-start));
         return datesMap.get("sorted");
     }
-
-
-
 }
