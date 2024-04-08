@@ -47,9 +47,11 @@ public class DateSorter {
     //first implementation
     //all dates are sorted in this order: dates with "r" first going and sorted ascending and then dates without "r" sorted descending
     public Collection<LocalDate> sortDates(List<LocalDate> unsortedDates) {
-        List<LocalDate> sortedDates = new ArrayList<>();
-        List<LocalDate> rDatesList = new ArrayList<>();
-        List<LocalDate> noRDatesList = new ArrayList<>();
+        long start = System.currentTimeMillis();
+        HashMap<String,List<LocalDate>> datesMap = new HashMap<>();
+        datesMap.put("sorted",new ArrayList<>());
+        datesMap.put("rDates",new ArrayList<>());
+        datesMap.put("noRDates",new ArrayList<>());
         List<Month> rMonths = new ArrayList<>();
         for (int i = 1; i <= 12; i++) {
             Month month = Month.of(i);
@@ -65,16 +67,18 @@ public class DateSorter {
         }
         for (LocalDate unsortedDate : unsortedDates) {
             if (!(rMonths.contains(unsortedDate.getMonth()))) {
-                noRDatesList.add(unsortedDate);
+                datesMap.get("noRDates").add(unsortedDate);
             } else {
-                rDatesList.add(unsortedDate);
+                datesMap.get("rDates").add(unsortedDate);
             }
         }
-        noRDatesList.sort(Collections.reverseOrder());
-        Collections.sort(rDatesList);
-        sortedDates.addAll(rDatesList);
-        sortedDates.addAll(noRDatesList);
-        return sortedDates;
+        datesMap.get("noRDates").sort(Collections.reverseOrder());
+        Collections.sort(datesMap.get("rDates"));
+        datesMap.get("sorted").addAll(datesMap.get("rDates"));
+        datesMap.get("sorted").addAll(datesMap.get("noRDates"));
+        long end = System.currentTimeMillis();
+        System.out.println("Time: "+(end-start));
+        return datesMap.get("sorted");
     }
 
 
