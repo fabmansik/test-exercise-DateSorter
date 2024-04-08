@@ -2,8 +2,6 @@ package sample;
 
 import java.text.DateFormatSymbols;
 import java.time.LocalDate;
-import java.time.Month;
-import java.time.format.TextStyle;
 import java.util.*;
 
 /**
@@ -49,7 +47,10 @@ public class DateSorter {
     //all dates are sorted in this order: dates with "r" first going and sorted ascending and then dates without "r" sorted descending
     public Collection<LocalDate> sortDates(List<LocalDate> unsortedDates) {
         List<Integer> rMonths = new ArrayList<>();
+        //        if you need only English dates language, use this:
         DateFormatSymbols dfs = new DateFormatSymbols(Locale.ENGLISH);
+//        if you need to use Locale.getDefault() values, use this then:
+//        DateFormatSymbols dfs = new DateFormatSymbols();
         String[] months = dfs.getMonths();
         for (int i = 1; i < months.length; i++) {
             if(months[i].contains("r")){
