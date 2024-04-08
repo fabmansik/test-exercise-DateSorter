@@ -14,8 +14,13 @@ public class Program {
             LocalDate now = LocalDate.now();
             randomDatesList.add(now.plusMonths(now.getMonth().getValue()+i).plusDays(now.getDayOfMonth()+i).minusYears(i));
         }
-
-        Collection<LocalDate> localDates = dateSorter.sortDates(randomDatesList);
+//        (2004-07-01, 2005-01-02, 2007-01-01, 2032-05-03)
+        List<LocalDate> test = new ArrayList<>();
+        test.add(LocalDate.of(2004,07,01));
+        test.add(LocalDate.of(2005,01,02));
+        test.add(LocalDate.of(2007,01,01));
+        test.add(LocalDate.of(2032,05,03));
+        Collection<LocalDate> localDates = dateSorter.sortDates(test);
         System.out.println(localDates);
     }
 }

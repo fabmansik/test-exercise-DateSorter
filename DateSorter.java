@@ -1,8 +1,7 @@
 package sample;
 
+import java.text.DateFormatSymbols;
 import java.time.LocalDate;
-import java.time.Month;
-import java.time.format.TextStyle;
 import java.util.*;
 
 /**
@@ -27,6 +26,7 @@ import java.util.*;
 public class DateSorter {
     // january, february, march, april, may, june, july, august, september, october, november, december
     //01 r, 02 r, 03 r, 04 r, 05 no r, 06 no r, 07 no r, 08 no r, 09 r, 10 r, 11 r, 12 r
+
     /**
      * The implementation of this method should sort dates.
      * The output should be in the following order:
@@ -47,34 +47,41 @@ public class DateSorter {
     //first implementation
     //all dates are sorted in this order: dates with "r" first going and sorted ascending and then dates without "r" sorted descending
     public Collection<LocalDate> sortDates(List<LocalDate> unsortedDates) {
-        HashMap<String,List<LocalDate>> datesMap = new HashMap<>();
-        datesMap.put("sorted",new ArrayList<>());
-        datesMap.put("rDates",new ArrayList<>());
-        datesMap.put("noRDates",new ArrayList<>());
-        List<Month> rMonths = new ArrayList<>();
-        for (int i = 1; i <= 12; i++) {
-            Month month = Month.of(i);
-            //if you are looking only for english states, use this
-            if(month.getDisplayName(TextStyle.FULL,Locale.ENGLISH).contains("r")){
-                rMonths.add(month);
+//        if you need only English dates language, use this:
+        DateFormatSymbols dfs = new DateFormatSymbols(Locale.ENGLISH);
+//        if you need to use Locale.getDefault() values, use this then:
+//        DateFormatSymbols dfs = new DateFormatSymbols();
+        String[] months = dfs.getMonths();
+        for (String month : months) {
+            System.out.println(month);
+        }
+        long start = System.currentTimeMillis();
+        HashMap<String, List<LocalDate>> datesMap = new HashMap<>();
+        datesMap.put("sorted", new ArrayList<>());
+        datesMap.put("rDates", new ArrayList<>());
+        datesMap.put("noRDates", new ArrayList<>());
+        List<Integer> rMonths = new ArrayList<>();
+
+        for (int i = 1; i < months.length; i++) {
+//            if you are looking only for english states, use this
+            if (months[i].contains("r")) {
+                rMonths.add(i);
             }
-            //if you are looking for different languages states, use this then
-//            if(month.getDisplayName(TextStyle.FULL,Locale.getDefault()).contains("r")){
-//                rMonths.add(month);
+//            if you are looking for different languages states, use this then
+//            if (months[i].contains("r")) {
+//                rMonths.add(i);
 //            }
 
         }
         for (LocalDate unsortedDate : unsortedDates) {
-            if (!(rMonths.contains(unsortedDate.getMonth()))) {
-                datesMap.get("noRDates").add(unsortedDate);
-            } else {
-                datesMap.get("rDates").add(unsortedDate);
-            }
+            boolean contains = !rMonths.contains(unsortedDate.getMonth().getValue()) ? datesMap.get("noRDates").add(unsortedDate) : datesMap.get("rDates").add(unsortedDate);
         }
         datesMap.get("noRDates").sort(Collections.reverseOrder());
         Collections.sort(datesMap.get("rDates"));
         datesMap.get("sorted").addAll(datesMap.get("rDates"));
         datesMap.get("sorted").addAll(datesMap.get("noRDates"));
+        long l = System.currentTimeMillis();
+        System.out.println("Time: " + (l - start));
         return datesMap.get("sorted");
     }
 }
