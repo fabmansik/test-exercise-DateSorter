@@ -43,28 +43,30 @@ public class DateSorter {
      * @return the collection of dates now sorted as per the spec
      */
 
-    //first implementation
-    //all dates are sorted in this order: dates with "r" first going and sorted ascending and then dates without "r" sorted descending
+    //  first implementation
+    //  all dates are sorted in this order: dates with "r" first going and sorted ascending and then dates without "r" sorted descending
     public Collection<LocalDate> sortDates(List<LocalDate> unsortedDates) {
         List<Integer> rMonths = new ArrayList<>();
-        //        if you need only English dates language, use this:
-        DateFormatSymbols dfs = new DateFormatSymbols(Locale.ENGLISH);
-//        if you need to use Locale.getDefault() values, use this then:
-//        DateFormatSymbols dfs = new DateFormatSymbols();
+    /*
+     * if you need only English dates language, use this:
+     * DateFormatSymbols dfs = new DateFormatSymbols(Locale.ENGLISH);
+    */
+      DateFormatSymbols dfs = new DateFormatSymbols();
         String[] months = dfs.getMonths();
         for (int i = 1; i < months.length; i++) {
             if(months[i].contains("r")){
                 rMonths.add(i);
             }
         }
+
         List<LocalDate> sortedDates = new ArrayList<>();
         List<LocalDate> rDatesList = new ArrayList<>();
         List<LocalDate> noRDatesList = new ArrayList<>();
 
-
         for (LocalDate unsortedDate : unsortedDates) {
             boolean contains = !rMonths.contains(unsortedDate.getMonth().getValue()) ? noRDatesList.add(unsortedDate) : rDatesList.add(unsortedDate);
         }
+
         noRDatesList.sort(Collections.reverseOrder());
         Collections.sort(rDatesList);
         sortedDates.addAll(rDatesList);
