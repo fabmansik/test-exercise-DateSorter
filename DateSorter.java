@@ -48,23 +48,21 @@ public class DateSorter {
     //first implementation
     //all dates are sorted in this order: dates with "r" first going and sorted ascending and then dates without "r" sorted descending
     public Collection<LocalDate> sortDates(List<LocalDate> unsortedDates) {
-        List<LocalDate> sortedDates = new ArrayList<>();
-        List<LocalDate> rDatesList = new ArrayList<>();
-        List<LocalDate> noRDatesList = new ArrayList<>();
         List<Integer> rMonths = new ArrayList<>();
-        DateFormatSymbols dfs = new DateFormatSymbols();
+        DateFormatSymbols dfs = new DateFormatSymbols(Locale.ENGLISH);
         String[] months = dfs.getMonths();
         for (int i = 1; i < months.length; i++) {
             if(months[i].contains("r")){
                 rMonths.add(i);
             }
         }
+        List<LocalDate> sortedDates = new ArrayList<>();
+        List<LocalDate> rDatesList = new ArrayList<>();
+        List<LocalDate> noRDatesList = new ArrayList<>();
+
+
         for (LocalDate unsortedDate : unsortedDates) {
-            if (!(rMonths.contains(unsortedDate.getMonth()))) {
-                noRDatesList.add(unsortedDate);
-            } else {
-                rDatesList.add(unsortedDate);
-            }
+            boolean contains = !rMonths.contains(unsortedDate.getMonth().getValue()) ? noRDatesList.add(unsortedDate) : rDatesList.add(unsortedDate);
         }
         noRDatesList.sort(Collections.reverseOrder());
         Collections.sort(rDatesList);
