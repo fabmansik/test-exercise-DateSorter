@@ -1,5 +1,6 @@
 package sample;
 
+import java.text.DateFormatSymbols;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.format.TextStyle;
@@ -50,18 +51,13 @@ public class DateSorter {
         List<LocalDate> sortedDates = new ArrayList<>();
         List<LocalDate> rDatesList = new ArrayList<>();
         List<LocalDate> noRDatesList = new ArrayList<>();
-        List<Month> rMonths = new ArrayList<>();
-        for (int i = 1; i <= 12; i++) {
-            Month month = Month.of(i);
-            //if you are looking only for english states, use this
-            if(month.getDisplayName(TextStyle.FULL,Locale.ENGLISH).contains("r")){
-                rMonths.add(month);
+        List<Integer> rMonths = new ArrayList<>();
+        DateFormatSymbols dfs = new DateFormatSymbols();
+        String[] months = dfs.getMonths();
+        for (int i = 1; i < months.length; i++) {
+            if(months[i].contains("r")){
+                rMonths.add(i);
             }
-            //if you are looking for different languages states, use this then
-//            if(month.getDisplayName(TextStyle.FULL,Locale.getDefault()).contains("r")){
-//                rMonths.add(month);
-//            }
-
         }
         for (LocalDate unsortedDate : unsortedDates) {
             if (!(rMonths.contains(unsortedDate.getMonth()))) {
